@@ -105,8 +105,6 @@ BS = 32
 NUM_TRAIN_IMAGES = 0
 NUM_TEST_IMAGES = 0
 
-How to use Keras fit and fit_generator (a hands-on tutorial)
-Python
 # open the training CSV file, then initialize the unique set of class
 # labels in the dataset along with the testing labels
 f = open(TRAIN_CSV, "r")
@@ -135,34 +133,6 @@ for line in f:
 
 # close the testing CSV file
 f.close()
-76
-77
-78
-79
-80
-81
-82
-83
-84
-85
-86
-87
-88
-89
-90
-91
-92
-93
-94
-95
-96
-97
-98
-99
-100
-101
-102
-103
 	
 # open the training CSV file, then initialize the unique set of class
 # labels in the dataset along with the testing labels
@@ -193,9 +163,75 @@ for line in f:
 # close the testing CSV file
 f.close()
 
+#----------------------Construct the data augmentation object ----------------#
 
+# create the label binarizer for one-hot encoding labels, then encode
+# the testing labels
+lb = LabelBinarizer()
+lb.fit(list(labels))
+testLabels = lb.transform(testLabels)
+ 
+# construct the training image generator for data augmentation
+aug = ImageDataGenerator(rotation_range=20, zoom_range=0.15,
+	width_shift_range=0.2, height_shift_range=0.2, shear_range=0.15,
+	horizontal_flip=True, fill_mode="nearest")
 
+#--------------------Initialize our training and testing image generators------------#
+	
+# initialize both the training and testing image generators
+trainGen = csv_image_generator(TRAIN_CSV, BS, lb,
+	mode="train", aug=aug)
+testGen = csv_image_generator(TEST_CSV, BS, lb,
+	mode="train", aug=None)
 
-#my_model.summary()
+print('The number of classes is :',len(lb.classes_))
+#-----------------initialize our Keras model and compile it---------------------#
+model = MiniVGGNet.build(64, 64, 3, len(lb.classes_))
+model.summary() # used architecture model (minivggnet)
+
+opt = SGD(lr=1e-2, momentum=0.9, decay=1e-2 / NUM_EPOCHS)
+model.compile(loss="categorical_crossentropy", optimizer=opt,
+	metrics=["accuracy"])
+ 
+# train the network
+print("[INFO] training w/ generator...")
+H = model.fit_generator(
+	trainGen,
+	steps_per_epoch=NUM_TRAIN_IMAGES // BS,
+	validation_data=testGen,
+	validation_steps=NUM_TEST_IMAGES // BS,
+	epochs=NUM_EPOCHS)
+
+#-----------------Test the model ----------------------#
+
+# re-initialize our testing data generator, this time for evaluating
+testGen = csv_image_generator(TEST_CSV, BS, lb,
+	mode="eval", aug=None)
+
+# make predictions on the testing images, finding the index of the
+# label with the corresponding largest predicted probability
+predIdxs = model.predict_generator(testGen,
+	steps=(NUM_TEST_IMAGES // BS) + 1)
+predIdxs = np.argmax(predIdxs, axis=1)
+
+# show a nicely formatted classification report
+print("[INFO] evaluating network...")
+print(classification_report(testLabels.argmax(axis=1), predIdxs,
+	target_names=lb.classes_))
+
+# plot the training loss and accuracy
+N = NUM_EPOCHS
+plt.style.use("ggplot")
+plt.figure()
+plt.plot(np.arange(0, N), H.history["loss"], label="train_loss")
+plt.plot(np.arange(0, N), H.history["val_loss"], label="val_loss")
+plt.plot(np.arange(0, N), H.history["acc"], label="train_acc")
+plt.plot(np.arange(0, N), H.history["val_acc"], label="val_acc")
+plt.title("Training Loss and Accuracy on Dataset")
+plt.xlabel("Epoch #")
+plt.ylabel("Loss/Accuracy")
+plt.legend(loc="lower left")
+plt.savefig("Training_result.png")
+
 if __name__ == '__main__':
 	print('processing finished !!')

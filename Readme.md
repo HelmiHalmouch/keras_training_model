@@ -27,5 +27,6 @@ the datasets in csv file are : flowers17_testing.csv  and  flowers17_training.cs
 <br/>
 To run the code, you can use : python keras_fit_fitgenerator.py
 
+# Used architecture model (minivggnet)
 
 
