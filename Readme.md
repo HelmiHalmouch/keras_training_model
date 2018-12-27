@@ -1,5 +1,5 @@
 # 1-Main objective 
-Application of fit, fit_generator and train_on_batch methods <br/>
+Application of fit, fit_generator and train_on_batch methods 
 in keras for training of a model <br/>
 
 # 2-General keras training function
@@ -12,4 +12,20 @@ in keras for training of a model <br/>
 a. keras .fit function is acceptable for a small dataset <br/>
 b. keras .fit_generator is used when we need to perform the dataset augmentation <br/>
 c. keras .train_on_batch  is applied for the finest-grained control over training your Keras models<br/>
+
+## Requirement 
+Python3.x > 3.4 <br/>
+TensorFlow + Keras <br/>
+Scikit-learn <br/>
+NumPy <br/>
+Matplotlib <br/>
+
+## Used datasets 
+The datasets used in our code can be download from this link: http://www.robots.ox.ac.uk/~vgg/data/flowers/17/
+<br/>
+the datasets in csv file are : flowers17_testing.csv  and  flowers17_training.csv
+<br/>
+To run the code, you can use : python keras_fit_fitgenerator.py
+
+
 
