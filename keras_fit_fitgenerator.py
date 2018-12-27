@@ -202,6 +202,8 @@ H = model.fit_generator(
 	validation_steps=NUM_TEST_IMAGES // BS,
 	epochs=NUM_EPOCHS)
 
+#save the model: 
+model.save('the_trained_fit_generatormodel.h5')
 #-----------------Test the model ----------------------#
 
 # re-initialize our testing data generator, this time for evaluating
