@@ -1,6 +1,8 @@
 # 1-Main objective 
-Application of fit, fit_generator and train_on_batch methods 
-in keras for training of a model <br/>
+Application of the following keras methods for the training of a model :<br/>
+a-fit, <br/>
+b-fit_generator <br/>
+c-train_on_batch <br/>
 
 # 2-General keras training function
 
