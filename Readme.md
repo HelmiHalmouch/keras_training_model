@@ -1,6 +1,6 @@
 # 1-Main objective 
 Application of the following keras methods for the training of a model :<br/>
-a-fit, <br/>
+a-fit <br/>
 b-fit_generator <br/>
 c-train_on_batch <br/>
 
