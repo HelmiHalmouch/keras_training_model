@@ -1,6 +1,7 @@
-# unzip the data set 
+# unzip the data set
 import zipfile
-import sys, os 
+import sys
+import os
 file = 'file_name.zip'
 
 with zipfile.ZipFile(file, 'r') as zip_ref:
