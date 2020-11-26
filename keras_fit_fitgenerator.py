@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 
 '''
-Application of fit, fit_generator and train_on_batch methods 
-									in keras for training of a model 
+Application of fit, fit_generator and train_on_batch methods
+									in keras for training of a model
 
-GHNAMI Helmi 
+GHNAMI Helmi
 27/12/2018
 
 '''
@@ -19,18 +19,17 @@ from keras.optimizers import SGD
 from keras.preprocessing.image import ImageDataGenerator
 from sklearn.preprocessing import LabelBinarizer
 from sklearn.metrics import classification_report
-# import minivggnet from the loac folder
 from minivggnet_model.minivggnet import MiniVGGNet
 
 '''in cmd use this command to get main idea about the training in keras :
 						help(keras.engine.training)'''
 
 #------------------General keras training function----------------------#
-#-1-# fit 			: model.fit(trainX, trainY, batch_size=32, epochs=50)
-#-2-# fit_generator :  model.fit_generator(aug.flow(trainX, trainY, batch_size=BS),
+# -1-# fit 			: model.fit(trainX, trainY, batch_size=32, epochs=50)
+# -2-# fit_generator :  model.fit_generator(aug.flow(trainX, trainY, batch_size=BS),
 #												validation_data=(testX, testY), steps_per_epoch=len(trainX) // BS,
 #												epochs=EPOCHS)
-#-3-# train_on_batch: model.train_on_batch(batchX, batchY)
+# -3-# train_on_batch: model.train_on_batch(batchX, batchY)
 
 #------------------------Preprocessing of datasets------------------------#
 
@@ -52,7 +51,7 @@ aug : (default is None ) If an augmentation object is specified, then we’ll ap
     f = open(inputPath, "r")
     # loop indefinitely
     while True:
-            # initialize our batches of images and labels
+        # initialize our batches of images and labels
         images = []
         labels = []
 
@@ -95,6 +94,7 @@ aug : (default is None ) If an augmentation object is specified, then we’ll ap
 
         # yield the batch to the calling function
         yield (np.array(images), labels)
+
 
 #----------------------------Initialize our training parameters---------------------#
 # initialize the paths to our training and testing CSV files
@@ -176,9 +176,14 @@ lb.fit(list(labels))
 testLabels = lb.transform(testLabels)
 
 # construct the training image generator for data augmentation
-aug = ImageDataGenerator(rotation_range=20, zoom_range=0.15,
-                         width_shift_range=0.2, height_shift_range=0.2, shear_range=0.15,
-                         horizontal_flip=True, fill_mode="nearest")
+aug = ImageDataGenerator(
+    rotation_range=20,
+    zoom_range=0.15,
+    width_shift_range=0.2,
+    height_shift_range=0.2,
+    shear_range=0.15,
+    horizontal_flip=True,
+    fill_mode="nearest")
 
 #--------------------Initialize our training and testing image generators------------#
 
