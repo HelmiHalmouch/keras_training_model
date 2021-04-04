@@ -40,11 +40,11 @@ from minivggnet_model.minivggnet import MiniVGGNet
 
 def csv_image_generator(inputPath, bs, lb, mode="train", aug=None):
     '''
-inputPath : the path to the CSV dataset file.
-bs : The batch size. We’ll be using 32.
-lb : A label binarizer object which contains our class labels.
-mode : (default is "train" ) If and only if the mode=="eval" , then a special accommodation is made to not apply data augmentation via the aug  object (if one is supplied).
-aug : (default is None ) If an augmentation object is specified, then we’ll apply it before we yield our images and labels.
+    inputPath : the path to the CSV dataset file.
+    bs : The batch size. We’ll be using 32.
+    lb : A label binarizer object which contains our class labels.
+    mode : (default is "train" ) If and only if the mode=="eval" , then a special accommodation is made to not apply data augmentation via the aug  object (if one is supplied).
+    aug : (default is None ) If an augmentation object is specified, then we’ll apply it before we yield our images and labels.
 
     '''
     # open the CSV file for reading
@@ -243,5 +243,4 @@ plt.xlabel("Epoch #")
 plt.ylabel("Loss/Accuracy")
 plt.legend(loc="lower left")
 plt.savefig("Training_result.png")
-
 print('processing finished !!')
